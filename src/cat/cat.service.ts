@@ -1,7 +1,8 @@
-import { PrismaService } from "src/prisma.service";
+import { PrismaService } from "prisma/prisma.service";
 import { Cat } from "./cat.model";
 import { Injectable } from "@nestjs/common";
 import { v4 } from 'uuid';
+import { CreateCatDTO } from "src/dto/CreateCat.dto";
 
 @Injectable()
 export class CatService{
@@ -15,10 +16,13 @@ export class CatService{
         return this.prisma.cat.findUnique({where: {id:String(id)}})
     }
 
-    async createCat(data: Cat): Promise<Cat>{
-        data.id = v4();
+    async createCat(body: CreateCatDTO): Promise<Cat>{
         return this.prisma.cat.create({
-            data,
+            data: {
+                id: v4(),
+                name: body.name,
+                color: body.color
+            },
         })
     }
     

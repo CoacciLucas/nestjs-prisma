@@ -2,7 +2,12 @@ import { Body, Controller, Delete, Get, Param, Post, Put, Req, Res } from "@nest
 import { Cat } from "./cat.model";
 import { CatService } from "./cat.service";
 import { Request, Response } from "express";
+import {
+     ApiTags,
+   } from '@nestjs/swagger';
+import { CreateCatDTO } from "src/dto/CreateCat.dto";
 
+@ApiTags('cats')
 @Controller('api/v1/cat')
 export class CatController{
 
@@ -20,7 +25,7 @@ export class CatController{
      }
 
      @Post()
-     async postCat(@Body() postData: Cat):Promise<Cat>{
+     async postCat(@Body() postData: CreateCatDTO):Promise<Cat>{
           return this.catService.createCat(postData)
      }
 
